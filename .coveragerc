@@ -1,0 +1,8 @@
+[report]
+omit =
+    */site-packages/*
+    */sqlachemy/*
+    */sqlite3/*
+    *decimal.py*
+    *numbers.py*
+    */tests/*
