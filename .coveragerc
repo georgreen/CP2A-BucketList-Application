@@ -6,3 +6,4 @@ omit =
     *decimal.py*
     *numbers.py*
     */tests/*
+    */asyncio/*
