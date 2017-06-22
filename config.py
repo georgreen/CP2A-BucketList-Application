@@ -1,7 +1,10 @@
+"""Module contains configuration classes for different enviroments."""
 import os
 
 
 class Config():
+    """Model base config object that can inherited by other configs."""
+
     SECRET_KEY = os.environ.get('SECRET_KEY')
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -12,6 +15,8 @@ class Config():
 
 
 class DevelopmentConfig(Config):
+    """Model Development enviroment config object."""
+
     DEBUG = True
     DEVELOPMENT = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE') or \
@@ -19,6 +24,8 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config):
+    """Model Testing enviroment config object."""
+
     DEBUG = True
     TESTING = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
@@ -27,11 +34,16 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
-    DEVELOPMENT = True
+    """Model Production enviroment config object."""
+
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 
 
 class StagingConfig(Config):
+    """Model Staging enviroment config object."""
+
+    DEBUG = True
+    DEVELOPMENT = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 
 
