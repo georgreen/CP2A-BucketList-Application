@@ -1,17 +1,21 @@
 """Module contains configuration classes for different enviroments."""
 import os
+from datetime import timedelta
 
 
 class Config():
     """Model base config object that can inherited by other configs."""
 
-    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SECRET_KEY = os.environ.get('SECRET')
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     CSRF_ENABLED = True
     DEBUG = False
     TESTING = False
     DEVELOPMENT = False
+    SWAGGER_UI_DOC_EXPANSION = 'list'
+    SWAGGER_UI_JSONEDITOR = True
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=30)
 
 
 class DevelopmentConfig(Config):
@@ -29,6 +33,7 @@ class TestingConfig(Config):
     DEBUG = True
     TESTING = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(milliseconds=10)
     SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE') or \
         'sqlite:///:memory:'
 

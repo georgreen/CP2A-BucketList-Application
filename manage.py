@@ -8,7 +8,7 @@ from flask_script import Manager, Shell, prompt_bool
 from app.api import endpoint
 from app.authenticate import auth
 from app.base import database, new_app
-from app.models import bucketlist, user
+from app.models import bucketlist, profile, user
 
 app = new_app(enviroment=os.environ.get('APP_SETTINGS') or "default")
 manager = Manager(app)
@@ -43,11 +43,8 @@ def shell_context():
         User=user.User,
         UserSchema=user.UserSchema,
         Item=bucketlist.Item,
-        ItemSchema=bucketlist.BucketSchema,
         Bucket=bucketlist.Bucket,
-        BucketSchema=bucketlist.BucketSchema,
-        Profile=user.Profile,
-        ProfileSchema=user.ProfileSchema,
+        Profile=profile.Profile,
         database=database)
 
 
