@@ -1,6 +1,5 @@
 from flask import Blueprint
-
-authenticate = Blueprint('authenticate', __name__)
+authenticate_blueprint = Blueprint('authenticate', __name__)
 
 
 def import_local_modules():
