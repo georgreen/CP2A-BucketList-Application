@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-api = Blueprint('api', __name__)
+endpoint_blueprint = Blueprint('api_blueprint', __name__)
 
 
 def import_local_modules():
