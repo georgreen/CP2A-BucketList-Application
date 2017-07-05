@@ -1,14 +1,11 @@
-"""This module contains Modlels for User and Profile."""
+"""This module contains Model for  a User."""
 
-from sqlalchemy.orm.collections import attribute_mapped_collection
+import re
+
+from marshmallow import ValidationError, fields, validates
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.base import BaseModel, database, json_schema
-
-budy = database.Table('budys',
-                      database.Column("user_id", database.Integer,
-                                      database.ForeignKey('users.id')),
-                      database.Column("profile_id", database.Integer,
-                                      database.ForeignKey('profiles.id')))
 
 
 class User(database.Model, BaseModel):
@@ -16,19 +13,32 @@ class User(database.Model, BaseModel):
 
     __tablename__ = "users"
     id = database.Column(database.Integer, primary_key=True)
-    user_name = database.Column(database.String(128), unique=True)
-    password = database.Column(database.String(256), nullable=False)
-    email = database.Column(database.String(64), nullable=True, unique=True)
+    username = database.Column(
+        database.String(128), unique=True, nullable=False)
+    password = database.Column(
+        database.String(256), nullable=False, unique=False)
+    email = database.Column(database.String(64), nullable=False, unique=True)
     date_created = database.Column(
         database.DateTime, default=database.func.now())
     profile_id = database.Column(database.Integer,
                                  database.ForeignKey('profiles.id'))
 
-    def __init__(self, name, password, email=""):
+    def __init__(self, username="", password="", email=""):
         """Initilize user object with required params."""
-        self.user_name = name
-        self.password = password
+        self.username = username
+        self.user_password = password
         self.email = email
+
+    @property
+    def user_password(self):
+        raise AttributeError("Read operation Not allowed on user_password.")
+
+    @user_password.setter
+    def user_password(self, password):
+        self.password = generate_password_hash(str(password))
+
+    def authenticate_password(self, password):
+        return check_password_hash(self.password, str(password))
 
     @classmethod
     def get_user(cls, name=None, id=None, email=None):
@@ -43,7 +53,7 @@ class User(database.Model, BaseModel):
             instance of User if succesfull, else None
         """
         if name:
-            return cls.query.filter_by(user_name=name).first()
+            return cls.query.filter_by(username=name).first()
         elif email:
             return cls.query.filter_by(email=email).first()
         elif id:
@@ -63,74 +73,37 @@ class User(database.Model, BaseModel):
         return cls.query.all()
 
 
-class Profile(database.Model, BaseModel):
-    """Model a User profile in the application."""
-
-    __tablename__ = "profiles"
-    id = database.Column(database.Integer, primary_key=True)
-    handle = database.Column(database.String(64), nullable=False, unique=True)
-    date_created = database.Column(
-        database.DateTime, default=database.func.now())
-    last_seen = database.Column(
-        database.DateTime,
-        default=database.func.now(),
-        onupdate=database.func.now())
-    status = database.Column(database.String(140), default="SELBSTÜBERWINDUNG")
-
-    owner = database.relationship(
-        "User", uselist=False, backref='profile', cascade="all, delete-orphan")
-
-    mentors = database.relationship(
-        "User",
-        secondary=budy,
-        collection_class=attribute_mapped_collection('user_name'),
-        backref=database.backref('followers'))
-
-    bucket_lists = database.relationship(
-        "Bucket",
-        collection_class=attribute_mapped_collection('name'),
-        cascade="all, delete-orphan")
-
-    def __init__(self, handle=""):
-        """Initilize the profile with required information."""
-        self.handle = handle
-
-    @classmethod
-    def get_profile(cls, handle=None):
-        """Get a Profile from the table profiles.
-
-        Args:
-            cls (Profile): Model to be queried
-            handle (str): Specify handle for user
-
-        Returns:
-            instance of Profile if succesfull, else None
-        """
-        if handle:
-            return cls.query.filter_by(handle=handle).first()
-
-    @classmethod
-    def get_profiles(cls):
-        """Get a Profile from the table profiles.
-
-        Args:
-            cls (Profile): Model to be queried
-
-        Returns:
-            list of all profile instances
-        """
-        return cls.query.all()
-
-
 class UserSchema(json_schema.ModelSchema):
-    """Define schema to convert User instance to Dictionary object."""
+    """Define schema that can be used to serialize and deserialized User model.
+
+    Provide Utilities to convert User object into a dictionary object or a
+    dictionary object to a User object.
+    """
 
     class Meta:
         model = User
 
+    email = fields.Email(required=True)
 
-class ProfileSchema(json_schema.ModelSchema):
-    """Define schema to convert Profile instance to Dictionary object."""
+    @validates('username')
+    def validate_username(self, value):
+        if value == "":
+            raise ValidationError("User name can not be empty.")
+        elif not re.match("^[A-Za-z0-9]+\s?[A-Za-z0-9]+$", value):
+            raise ValidationError("Username can not have special characters.")
+        elif not 3 < len(value) < 128:
+            raise ValidationError("Username should contain 3 or more letters.")
 
-    class Meta:
-        model = Profile
+    @validates('password')
+    def validate_password(self, value):
+        if value == "":
+            raise ValidationError("user_password can not be empty")
+        elif len(value) < 8:
+            raise ValidationError(
+                "password is too short, must contain more than 8 characters")
+        elif not re.match(
+                "((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%*&]).{7,56})",
+                value):
+            raise ValidationError(
+                "must contains one digit 0-9, one lowercase characters, one " +
+                "uppercase characters, one special symbols in the list *&@#$%")
