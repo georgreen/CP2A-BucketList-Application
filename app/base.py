@@ -6,13 +6,12 @@ The base Model class(BaseModel)is defined in this module, it defines common
 properties for models used in application.
 """
 
+from config import config
 from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_marshmallow import Marshmallow
 from flask_restplus import Api
 from flask_sqlalchemy import SQLAlchemy
-
-from config import config
 
 # database instance of sqlachemy provides all database operations.
 database = SQLAlchemy()
@@ -22,6 +21,7 @@ json_schema = Marshmallow()
 
 # api_app instance of Api class from flask_restplus, provide utilities for
 # defining api's endpoints and Resources
+
 api_app = Api(
     title='BucketList Api',
     version='1.0',

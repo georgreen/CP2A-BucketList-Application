@@ -2,15 +2,14 @@
 import re
 
 import webargs
+from app.base import api_app as app
+from app.base import autheticate_manager
+from app.models import profile, user
 from flask import request
 from flask_jwt_extended import create_access_token
 from flask_restplus import Resource, fields
 from webargs.flaskparser import parser
 from werkzeug.exceptions import InternalServerError
-
-from app.base import api_app as app
-from app.base import autheticate_manager
-from app.models import profile, user
 
 from . import authenticate_blueprint
 

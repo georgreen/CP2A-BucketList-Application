@@ -2,18 +2,10 @@ import json
 
 import flask
 
-from app.authenticate import auth
 from tests.base_test_setup import BaseTestCase
 
 
 class TestLogin(BaseTestCase):
-
-    def setUp(self):
-        BaseTestCase.setUp(self)
-
-    def tearDown(self):
-        BaseTestCase.tearDown(self)
-
     def test_user_login(self):
         response = self.client.post(self.login_url, data=self.data)
         self.assertTrue(response.status_code == 200)
@@ -72,19 +64,10 @@ class TestLogin(BaseTestCase):
 
     def test_login_url_and_data(self):
         with self.app.test_request_context(self.login_url, data=self.data):
-            print(flask.request.path)
-            print(self.login_url)
             self.assertTrue(flask.request.path == self.login_url)
 
 
 class TestRegister(BaseTestCase):
-
-    def setUp(self):
-        BaseTestCase.setUp(self)
-
-    def tearDown(self):
-        BaseTestCase.tearDown(self)
-
     def test_user_register(self):
         response = self.client.post(self.register_url, data=self.registerdata)
         self.assertTrue(response.status_code == 201)
