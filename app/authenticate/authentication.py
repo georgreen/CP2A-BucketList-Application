@@ -1,4 +1,4 @@
-import json
+"""This module contain registration and login feature."""
 import re
 
 import webargs
@@ -8,7 +8,6 @@ from flask_restplus import Resource, fields
 from webargs.flaskparser import parser
 from werkzeug.exceptions import InternalServerError
 
-from app import errors as api_errors
 from app.base import api_app as app
 from app.base import autheticate_manager
 from app.models import profile, user
@@ -25,6 +24,7 @@ app = app.namespace(
 
 @parser.error_handler
 def handle_error(error):
+    """Error handler for malformed register and login requests."""
     errors = {key: "".join(error.messages[key]) for key in error.messages}
     e = ValueError(errors)
     e.message = errors
@@ -33,11 +33,15 @@ def handle_error(error):
 
 @app.route("/register/", endpoint='register')
 class Register(Resource):
+    """Resource for registration."""
+
     registration_args = {
         'email': webargs.fields.Str(required=True),
         'password': webargs.fields.Str(required=True),
         'username': webargs.fields.Str(required=True)
     }
+
+    # swagger documentation
     register_args_model = app.model(
         'registration_args', {
             'email': fields.String(required=True),
@@ -49,14 +53,8 @@ class Register(Resource):
         'status': fields.String,
     })
 
-    # swagger documentation
-    @app.doc(
-        body=register_args_model,
-        responses={
-            201: "Success",
-            400: "Bad data",
-            401: "Registration Failed"
-        })
+    @app.doc(body=register_args_model, responses={400: "Bad data"})
+    @app.response(401, "Registration Failed", register_response_model)
     @app.marshal_with(register_response_model, code=201)
     def post(self):
         """Register a user."""
@@ -96,28 +94,29 @@ class Register(Resource):
 
 @app.route("/login/", endpoint='login')
 class Login(Resource):
+    """Resource for Login/Authentication."""
+
     login_args = {
         'email': webargs.fields.Str(required=True),
         'password': webargs.fields.Str(required=True)
     }
+
+    # swagger documentation
     login_args_model = app.model(
         'login_args', {
             'email': fields.String(required=True),
             'password': fields.String(required=True),
         })
-    login_response_model = app.model('Login_repsonse', {
-        'message': fields.String,
-        'status': fields.String,
-        'token': fields.String,
-    })
+    login_response_model = app.model(
+        'Login_repsonse', {
+            'message': fields.String,
+            'status': fields.String,
+            'token': fields.String(default="Denied"),
+        })
 
-    # swagger documentation
-    @app.doc(
-        body=login_args_model,
-        responses={200: "Success",
-                   400: "Bad data",
-                   401: "Login failed"})
-    @app.marshal_with(login_response_model)
+    @app.response(401, "Login Failed", login_response_model)
+    @app.doc(body=login_args_model, responses={400: "Bad data"})
+    @app.marshal_with(login_response_model, code=200)
     def post(self):
         """Log a user in."""
         self.args = parser.parse(Login.login_args, request)
@@ -153,10 +152,12 @@ class Login(Resource):
     @staticmethod
     @autheticate_manager.user_claims_loader
     def add_claims_to_access_token(user):
+        """Utility method, allow user information to be Embeded in token."""
         return {'user_credential': user}
 
     @staticmethod
     def verify_credentials(user_credential="", password=""):
+        """Utility method, autheticate user information."""
         email = None
         username = None
         if re.match("^[A-Za-z0-9]+\s?[A-Za-z0-9]+$", user_credential):

@@ -15,7 +15,7 @@ class Config():
     DEVELOPMENT = False
     SWAGGER_UI_DOC_EXPANSION = 'list'
     SWAGGER_UI_JSONEDITOR = True
-    JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=30)
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=360)
 
 
 class DevelopmentConfig(Config):
@@ -33,7 +33,7 @@ class TestingConfig(Config):
     DEBUG = True
     TESTING = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
-    JWT_ACCESS_TOKEN_EXPIRES = timedelta(milliseconds=10)
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=1)
     SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE') or \
         'sqlite:///:memory:'
 
