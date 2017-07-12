@@ -23,7 +23,7 @@ class Profile(database.Model, BaseModel):
         database.DateTime,
         default=database.func.now(),
         onupdate=database.func.now())
-    status = database.Column(database.String(140), default="SELBSTÜBERWINDUNG")
+    status = database.Column(database.String(140), default="SELBSTUBERWINDUNG")
 
     owner = database.relationship(
         "User", uselist=False, backref='profile', cascade="all, delete-orphan")
