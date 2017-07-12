@@ -31,13 +31,23 @@ class User(database.Model, BaseModel):
 
     @property
     def user_password(self):
+        """Propery user_password."""
         raise AttributeError("Read operation Not allowed on user_password.")
 
     @user_password.setter
     def user_password(self, password):
+        """Property setter for password."""
         self.password = generate_password_hash(str(password))
 
     def authenticate_password(self, password):
+        """Validate user password.
+
+        Args:
+            password(str): User password
+
+        Returns:
+            instance of True if password match, else False
+        """
         return check_password_hash(self.password, str(password))
 
     @classmethod
@@ -81,12 +91,15 @@ class UserSchema(json_schema.ModelSchema):
     """
 
     class Meta:
+        """Define meta class for UserSchema."""
+
         model = User
 
     email = fields.Email(required=True)
 
     @validates('username')
     def validate_username(self, value):
+        """Username validator check if user name is valid."""
         if value == "":
             raise ValidationError("User name can not be empty.")
         elif not re.match("^[A-Za-z0-9]+\s?[A-Za-z0-9]+$", value):
@@ -96,6 +109,7 @@ class UserSchema(json_schema.ModelSchema):
 
     @validates('password')
     def validate_password(self, value):
+        """Password validator check if user password is valid."""
         if value == "":
             raise ValidationError("user_password can not be empty")
         elif len(value) < 8:
