@@ -13,13 +13,13 @@ This App exposes endpoints that allows ```clients/Users``` to manage a bucketlis
 
 |Method | Endpoint | Usage |
 | ---- | ---- | --------------- |
-|POST| `/api/v1/auth/register` |  Register a user. |
-|POST| `/api/v1/auth/login` | Login user.|
-|POST| `/api/v1/bucketlists/` | Create a new bucket list. |
-|GET| `/api/v1/bucketlists/` | Get all the created bucket lists. |
-|GET| `/api/v1/bucketlists/<bucket_id>` | Get a single bucket list. |
-|PUT| `/api/v1/bucketlists/<bucket_id>` | Update a single bucket list. |
-|DELETE| `/api/v1/bucketlists/<bucket_id>` | Delete single bucket list. |
+|POST| `/api/v1.0/register` |  Register a user. |
+|POST| `/api/v1.0/login` | Login user.|
+|POST| `/api/v1.0/bucketlists/` | Create a new bucket list. |
+|GET| `/api/v1.0/bucketlists/` | Get all the created bucket lists. |
+|GET| `/api/v1.0/bucketlists/<bucket_id>` | Get a single bucket list. |
+|PUT| `/api/v1.0/bucketlists/<bucket_id>` | Update a single bucket list. |
+|DELETE| `/api/v1.0/bucketlists/<bucket_id>` | Delete single bucket list. |
 |POST| `/api/v1/bucketlists/<bucket_id>/items` | Add a new item to this bucket list. |
 |GET| `/api/v1/bucketlists/<bucket_id>/items` | Get an item from this bucket list. |
 |PUT|`/api/v1/bucketlists/<bucket_id>/items/<item_id>` | Update an item in this bucket list. |
@@ -66,38 +66,86 @@ $ pip install -r requirements.txt
 - Configure Environment.
 
 ```
-export APP_SETTINGS="default"
-export DEV_DATABASE="path to your database"
-export SECRET="Secret Key Here"
+$ export APP_SETTINGS="default"
+$ export DEV_DATABASE="path to your database"
+$ export SECRET="Secret Key Here"
 ```
 > Note replace the value for DEV_DATABASE with real database path and SECRET with a strong string value
 
 
 - Configure database
 ```
-python manage.py database init
-python manage.py database migrate
-python manage.py database upgrade
+$ python manage.py database init
+$ python manage.py database migrate
+$ python manage.py database upgrade
 ```
 
 - Run App
 ```
-python manage.py runserver
+$ python manage.py runserver
 ```
 The app should be accessiable via : http://127.0.0.1:5000/
 
 ### Session Examples
+To Follow along with this examples get postman : A powerful GUI platform to make your API requests. [READ MORE HERE](https://www.getpostman.com/)
+- Set up postman
+ ![post man](Assets/postmanhome.png)
+
 - Signup/ register
+![post man](Assets/register.png)
+    - Post data in the format below to the register endpoint: /api/v1.0/register
+    ```
+    {
+	"username":"geogreen ngunga",
+	"email":"demoenail@gmail.com",
+	"password":"demoPassword12#"
+    }
+    ```
+
 
 - Login
+![post man](Assets/login.png)
+    - Post data in the format below to the login endpoint : /api/v1.0/login
+```
+{
+"email":"demoenail@gmail.com",
+"password":"demoPassword12#"
+}
+```
 
 - Create BucketList
+![post man](Assets/createbucket.png)
+    - Post data in the format below to the bucketlist endpoint: /api/v1.0/bucketlists/
+```
+{
+"name":"new bucketlist name"
+}
+```
 
 - Get BucketList
+![post man](Assets/getbuckets.png)
+    - Get data from the  bucketlist endpoint: /api/v1.0/bucketlists/
+    </br></br>
+
+- Get one BucketList
+![post man](Assets/getonebucket.png)
+    - Get data from the  bucketlist endpoint: /api/v1.0/bucketlists/bucket_id
+    </br></br>
 
 - Update BucketList
+![post man](Assets/updatebucket.png)
+    - Put data to the endpoint :/api/v1.0/bucketlists/bucket_id
+
+    ```
+    {
+        "name":"new name"
+    }
+    ```
+
 
 - Delete BucketList
+![post man](Assets/deletebucket.png)
+    - Delete data at an endpoint:/api/v1.0/bucketlists/bucket_id </br></br>
 
 - Add Item to BucketList
 
@@ -115,20 +163,20 @@ The app should be accessiable via : http://127.0.0.1:5000/
 ## Running the tests
 
 ```
-python manage.py test
+$ python manage.py test
 ```
 - With Coverage
 
 ```
- nosetests --rednose --with-coverage --cover-package=app -v
+ $ nosetests --rednose --with-coverage --cover-package=app -v
 ```
 
 - Coding style tests
 
-Pep8 standards are followed in project.
+[Pep8](https://www.python.org/dev/peps/pep-0008/) standards are followed in project.
 
 ```
-pep8 app --count
+$ pep8 app --count
 ```
 
 ## Deployment
