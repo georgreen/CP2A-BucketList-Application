@@ -6,8 +6,9 @@ The base Model class(BaseModel)is defined in this module, it defines common
 properties for models used in application.
 """
 
+from app import errors
 from config import config
-from flask import Flask
+from flask import Blueprint, Flask
 from flask_jwt_extended import JWTManager
 from flask_marshmallow import Marshmallow
 from flask_restplus import Api
@@ -19,14 +20,17 @@ database = SQLAlchemy()
 # json_schema provide utilities to model classes as dictionary objects.
 json_schema = Marshmallow()
 
-# api_app instance of Api class from flask_restplus, provide utilities for
+# api nstance of Api class from flask_restplus, provide utilities for
 # defining api's endpoints and Resources
 
-api_app = Api(
+api_blueprint = Blueprint('api', __name__, url_prefix="/api")
+
+api = Api(
+    app=api_blueprint,
     title='BucketList Api',
     version='1.0',
     description=""" The Brighter side of BucketList: Imagine,
-    dream then accoplish.""",
+    dream then accomplish.""",
     contact="georgreen.ngunga@andela.com")
 
 # authentication manager
@@ -42,23 +46,23 @@ def new_app(enviroment="default"):
     Returns:
         app (Flask): it returns an instance of Flask.
     """
-    app = Flask(__name__)
-    app.config.from_object(config[enviroment])
-    database.init_app(app)
-    json_schema.init_app(app)
-    autheticate_manager.init_app(app)
+    flask = Flask(__name__)
+    flask.config.from_object(config[enviroment])
+    database.init_app(flask)
+    json_schema.init_app(flask)
+    autheticate_manager.init_app(flask)
 
-    # register blue prints here
-    from app import api
-    app.register_blueprint(api.endpoint_blueprint)
+    flask.register_blueprint(errors.errors)
+    flask.register_blueprint(api_blueprint)
 
-    from app import errors
-    app.register_blueprint(errors.errors)
+    # add authentication and endpoints to api
+    from app.authenticate import authentication
+    api.add_namespace(authentication.app)
 
-    from app import authenticate
-    app.register_blueprint(authenticate.authenticate_blueprint)
+    from app.endpoint import endpoints
+    api.add_namespace(endpoints.app)
 
-    return app
+    return flask
 
 
 class BaseModel(object):
