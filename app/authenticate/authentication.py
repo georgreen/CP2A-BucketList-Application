@@ -2,23 +2,19 @@
 import re
 
 import webargs
-from app.base import api_app as app
 from app.base import autheticate_manager
 from app.models import profile, user
-from flask import request
+from flask import jsonify, request
 from flask_jwt_extended import create_access_token
-from flask_restplus import Resource, fields
+from flask_jwt_extended.exceptions import (InvalidHeaderError,
+                                           NoAuthorizationError)
+from flask_restplus import Namespace, Resource, fields
+from jwt.exceptions import DecodeError, ExpiredSignatureError
 from webargs.flaskparser import parser
 from werkzeug.exceptions import InternalServerError
 
-from . import authenticate_blueprint
-
-app.init_app(authenticate_blueprint)
-
-app = app.namespace(
-    "Auth",
-    description='Operations related to Authentication',
-    path='/api/v1.0/')
+app = Namespace(
+    "Auth", description='Operations related to Authentication', path='/v1.0')
 
 
 @parser.error_handler
@@ -28,6 +24,44 @@ def handle_error(error):
     e = ValueError(errors)
     e.message = errors
     raise e
+
+
+@app.errorhandler(ValueError)
+def handle_invalid_arguments(e):
+    """Handle malformed request data errors."""
+    errors = e.message
+    return jsonify(errors)
+
+
+@app.errorhandler(NoAuthorizationError)
+def handle_noauthorization(e):
+    """Handle missing authorization in header."""
+    return jsonify(e)
+
+
+@app.errorhandler(InvalidHeaderError)
+def handle_invalidheader(e):
+    """Handle invalid authorization in header."""
+    return jsonify(e)
+
+
+@app.errorhandler(ExpiredSignatureError)
+def handle_expiredtoken(e):
+    """Handle expired authorization in header."""
+    return jsonify(e)
+
+
+@app.errorhandler(DecodeError)
+def handle_decoderror(e):
+    """Handle bad authorization in header."""
+    return jsonify(e)
+
+
+@app.errorhandler(Exception)
+def handle_unexpected(e):
+    """Handle unexpected errors in this namespace."""
+    error = {"message": "Server error something went worng :-("}
+    return jsonify(error)
 
 
 @app.route("/register/", endpoint='register')
