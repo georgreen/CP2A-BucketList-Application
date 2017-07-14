@@ -86,6 +86,7 @@ class TestBucketList(BaseTestCase):
         })
         response = self.client.put(
             "/api/v1.0/bucketlist/0/items/0", headers=self.headers, data=data)
+
         self.assertTrue(response.status_code == 201)
         data = json.loads(response.data)
         self.assertTrue(data['item'].get("id") == 0)

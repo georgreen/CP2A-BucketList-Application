@@ -1,7 +1,6 @@
 import json
 
 import flask
-
 from tests.base_test_setup import BaseTestCase
 
 
@@ -32,7 +31,7 @@ class TestLogin(BaseTestCase):
         self.assertTrue(response.content_type == "application/json")
 
     def test_empty_credentials(self):
-        response = self.client.post(self.login_url, data={})
+        response = self.client.post(self.login_url, data=json.dumps({}))
         self.assertTrue(response.status_code == 400)
         data = json.loads(response.data)
 
