@@ -104,7 +104,7 @@ class UserSchema(json_schema.ModelSchema):
             raise ValidationError("User name can not be empty.")
         elif not re.match("^[A-Za-z0-9]+\s?[A-Za-z0-9]+$", value):
             raise ValidationError("Username can not have special characters.")
-        elif not 3 < len(value) < 128:
+        elif not 2 < len(value) < 128:
             raise ValidationError("Username should contain 3 or more letters.")
 
     @validates('password')
@@ -119,5 +119,5 @@ class UserSchema(json_schema.ModelSchema):
                 "((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%*&]).{7,56})",
                 value):
             raise ValidationError(
-                "must contains one digit 0-9, one lowercase characters, one " +
+                "must contain one digit 0-9, one lowercase characters, one " +
                 "uppercase characters, one special symbols in the list *&@#$%")

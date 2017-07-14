@@ -63,8 +63,9 @@ class Profile(database.Model, BaseModel):
             bucket = bucketlist.Bucket.get_bucket(
                 name=name, profile_id=self.id)
         elif bucket_id or bucket_id == 0:
-            bucket = bucketlist.Bucket.get_bucket(
-                asset_id=bucket_id, profile_id=self.id)
+            # bucket = bucketlist.Bucket.get_bucket(
+            #     asset_id=bucket_id, profile_id=self.id)
+            bucket = self.bucket_lists.get(bucket_id)
         elif id or id == 0:
             bucket = bucketlist.Bucket.get_bucket(id=id, profile_id=self.id)
         return bucket
@@ -91,7 +92,7 @@ class Profile(database.Model, BaseModel):
         else:
             return None
 
-    def get_item(self, item_id=None, name=None, id=None):
+    def get_item(self, item_id=None, name=None, id=None, buc_id=None):
         """Get an item from the table items.
 
         Args:
@@ -103,9 +104,11 @@ class Profile(database.Model, BaseModel):
             instance of a item if succesfull, else None
         """
         item = None
-        if item_id or item_id == 0:
-            item = bucketlist.Item.get_item(
-                asset_id=item_id, profile_id=self.id)
+        if (item_id or item_id == 0) and (buc_id or buc_id == 0):
+            # item = bucketlist.Item.get_item(
+            #     asset_id=item_id, profile_id=self.id)
+            if self.bucket_lists.get(buc_id):
+                item = self.bucket_lists.get(buc_id).items.get(item_id)
         elif name:
             item = bucketlist.Item.get_item(name=name, profile_id=self.id)
         elif id or id == 0:
@@ -148,7 +151,8 @@ class Profile(database.Model, BaseModel):
                    name=None,
                    description=None,
                    item=None,
-                   done=None):
+                   done=None,
+                   buc_id=None):
         """Edit assets(item/bucket) on Profile.
 
         Args:
@@ -161,25 +165,30 @@ class Profile(database.Model, BaseModel):
             True if succesfull, False if item was not saved and None if the
             bucket does not exist.
         """
-        if item:
-            return self._edit_item(asset_id, name, description, done)
-        else:
+        if item and (buc_id or buc_id == 0):
+            return self._edit_item(asset_id, name, description, done, buc_id)
+        elif not item:
             return self._edit_bucket(asset_id, name)
 
-    def _edit_item(self, asset_id=None, name=None, description=None,
-                   done=None):
-        edit_item = self.get_item(item_id=asset_id)
-        bucket = self.get_bucket(id=edit_item.bucket_id)
-        if edit_item and bucket:
-            if name:
+    def _edit_item(self,
+                   asset_id=None,
+                   name=None,
+                   description=None,
+                   done=None,
+                   buc_id=None):
+        edit_item = self.get_item(item_id=asset_id, buc_id=buc_id)
+
+        if edit_item:
+            bucket = self.get_bucket(id=edit_item.bucket_id)
+            if name and bucket:
                 # bucket.items[name] = bucket.items.pop(edit_item.name)
                 bucket.items[edit_item.asset_id].name = name
-            if description:
+            if description and bucket:
                 bucket.items[edit_item.asset_id].description = description
-            if done is not None:
+            if done is not None and bucket:
                 bucket.items[edit_item.asset_id].done = done
-
-            return edit_item.save() and self.save() and bucket.save()
+            if bucket:
+                return edit_item.save() and self.save() and bucket.save()
         return None
 
     def _edit_bucket(self, asset_id=None, name=None):
@@ -190,7 +199,7 @@ class Profile(database.Model, BaseModel):
             return edit_bucket.save() and self.save()
         return None
 
-    def delete_asset(self, asset_id=None, name=None, item=False):
+    def delete_asset(self, asset_id=None, name=None, item=False, buc_id=None):
         """Delete an assets(item/bucket) on Profile.
 
         Args:
@@ -203,13 +212,13 @@ class Profile(database.Model, BaseModel):
             bucket/item does not exist.
         """
         assert_to_delete = None
-        if item and (asset_id or asset_id == 0):
-            assert_to_delete = self.get_item(item_id=asset_id)
+        if item and (asset_id or asset_id == 0) and (buc_id or buc_id == 0):
+            assert_to_delete = self.get_item(item_id=asset_id, buc_id=buc_id)
         elif item and name:
             assert_to_delete = self.get_item(name=name)
         elif asset_id or asset_id == 0:
             assert_to_delete = self.get_bucket(bucket_id=asset_id)
-        elif name:
+        elif name and not item:
             assert_to_delete = self.get_bucket(name=name)
 
         if assert_to_delete:

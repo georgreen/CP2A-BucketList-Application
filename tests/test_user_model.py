@@ -5,12 +5,6 @@ from tests.base_test_setup import BaseTestCase
 
 
 class TestUser(BaseTestCase):
-    def setUp(self):
-        BaseTestCase.setUp(self)
-
-    def tearDown(self):
-        BaseTestCase.tearDown(self)
-
     def test_create_user(self):
         new_user = user.User("new_name", "user_password", "email@gmail.com")
         save = new_user.save()
@@ -119,7 +113,7 @@ class TestUser(BaseTestCase):
 
         # less than three characters
         dict_data = {
-            'username': 'geo',
+            'username': 'ge',
             'password': 'A123#445678q1000',
             'email': 'geogreen123@some.com'
         }

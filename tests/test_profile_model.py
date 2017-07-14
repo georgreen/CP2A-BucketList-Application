@@ -5,12 +5,6 @@ from tests.base_test_setup import BaseTestCase
 
 
 class TestProfile(BaseTestCase):
-    def setUp(self):
-        BaseTestCase.setUp(self)
-
-    def tearDown(self):
-        BaseTestCase.tearDown(self)
-
     def test_create_Profile(self):
         person_profile = profile.Profile("@johndoe_profile", self.new_user)
         person_profile.save()
@@ -20,7 +14,7 @@ class TestProfile(BaseTestCase):
         self.assertTrue(query.bucket_lists == {})
         self.assertTrue(query.mentors == {})
         self.assertTrue(query.handle == "@johndoe_profile")
-        self.assertTrue(query.status == "SELBSTÜBERWINDUNG")
+        self.assertTrue(query.status == "SELBSTUBERWINDUNG")
 
     def test_delete_Profile(self):
         query = profile.Profile.get_profile(handle="@crimson_profile")
@@ -78,7 +72,7 @@ class TestProfile(BaseTestCase):
             "Testing search by asertNo", buc_name="Travelling")
         item = self.new_profile.get_item(name="Testing search by asertNo")
 
-        item = self.new_profile.get_item(item_id=item.asset_id)
+        item = self.new_profile.get_item(item_id=item.asset_id, buc_id=0)
         self.assertTrue(item)
 
     def test_get_bucket_from_profile(self):
@@ -97,7 +91,8 @@ class TestProfile(BaseTestCase):
             item=True,
             asset_id=item.asset_id,
             name="Vist many places",
-            description="congo, rwanda, uganda")
+            description="congo, rwanda, uganda",
+            buc_id=0)
 
         self.assertTrue(edit)
         item = self.new_profile.get_item(name="Vist muny places")
