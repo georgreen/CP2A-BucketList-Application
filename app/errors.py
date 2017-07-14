@@ -6,6 +6,11 @@ from flask.json import jsonify
 errors = Blueprint('errors', __name__)
 
 
+@errors.app_errorhandler(Exception)
+def handle_exceptions(e):
+    return {"message": "exception occured"}
+
+
 @errors.app_errorhandler(404)
 def not_found(e):
     """404 Error Handler."""
