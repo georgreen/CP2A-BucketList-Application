@@ -15,7 +15,7 @@ class Config():
     DEVELOPMENT = False
     SWAGGER_UI_DOC_EXPANSION = 'list'
     SWAGGER_UI_JSONEDITOR = True
-    JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=360)
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=120)
 
 
 class DevelopmentConfig(Config):
