@@ -4,7 +4,7 @@
 # BucketList API
  Create an API for an online Bucket List service using Flask.
 
-```Bucket list``` can also be reffered to as ```things/something to do before you die```. It is possibly derived from the English idiom to kick the bucket. It is used as an informal way or as a slang and it is believed that the idiom comes from method of execution such as hanging. The origin of the word remains unclear. [Read more here.](https://www.quora.com/Why-is-a-bucket-list-called-a-bucket-list)
+```Bucket list``` can also be refered to as ```things/something to do before you die```. It is possibly derived from the English idiom to kick the bucket. It is used as an informal way or as a slang and it is believed that the idiom comes from method of execution such as hanging. The origin of the word remains unclear. [Read more here.](https://www.quora.com/Why-is-a-bucket-list-called-a-bucket-list)
 
 - ## API
 This App exposes endpoints that allows ```clients/Users``` to manage a bucketlist of their choise.
@@ -16,14 +16,14 @@ This App exposes endpoints that allows ```clients/Users``` to manage a bucketlis
 |POST| `/api/v1/auth/register` |  Register a user. |
 |POST| `/api/v1/auth/login` | Login user.|
 |POST| `/api/v1/bucketlists/` | Create a new bucket list. |
-|GET| `/api/v1/bucketlists/` | Retrieve all the created bucket lists. |
+|GET| `/api/v1/bucketlists/` | Get all the created bucket lists. |
 |GET| `/api/v1/bucketlists/<bucket_id>` | Get a single bucket list. |
 |PUT| `/api/v1/bucketlists/<bucket_id>` | Update a single bucket list. |
 |DELETE| `/api/v1/bucketlists/<bucket_id>` | Delete single bucket list. |
 |POST| `/api/v1/bucketlists/<bucket_id>/items` | Add a new item to this bucket list. |
 |GET| `/api/v1/bucketlists/<bucket_id>/items` | Get an item from this bucket list. |
 |PUT|`/api/v1/bucketlists/<bucket_id>/items/<item_id>` | Update an item in this bucket list. |
-|PATCH|`/api/v1/bucketlists/<bucket_id>/items/<item_id>` | patch an item in this bucket list. |
+|PATCH|`/api/v1/bucketlists/<bucket_id>/items/<item_id>` | Patch an item in this bucket list. |
 |DELETE|`/api/v1/bucketlists/<bucket_id>/items/<item_id>` | Delete this single bucket list. |
 |GET| `/api/v1/bucketlists?per_page=10&page=1` | Pagination to get 10 bucket list records.|
 |GET| `/api/v1/bucketlists?q=a bucket` | Search for bucket lists with name like a bucket.
