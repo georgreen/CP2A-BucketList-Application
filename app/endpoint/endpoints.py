@@ -1,14 +1,16 @@
 """This Module contains endpoints for Api."""
+
 import re
 
 import webargs
-from app.models import bucketlist, user
 from flask import request, url_for
 from flask.json import jsonify
 from flask_jwt_extended import get_jwt_claims, jwt_required
 from flask_restplus import Namespace, Resource, fields
 from sqlalchemy import or_
 from webargs.flaskparser import parser
+
+from app.models import bucketlist, user
 
 app = Namespace(
     "Bucketlist",
@@ -325,10 +327,11 @@ class ItemOperations(BaseResource):
             return {"message": "Item not found in bucket"}, 404
 
         # editted
-        edit = self.profile.edit_asset(item=True, done=done, asset_id=item_id)
+        edit = self.profile.edit_asset(
+            item=True, done=done, asset_id=item_id, buc_id=bucket_id)
 
         if not edit:
-            return {"message": "Unable to edit item"}, 500
+            return {"message": "Unable to edit item"}, 422
 
         # get item
         return {
@@ -384,7 +387,7 @@ class ItemOperations(BaseResource):
             asset_id=item_id,
             buc_id=bucket_id)
         if not edit:
-            return {"message": "Unable to edit item"}, 500
+            return {"message": "Unable to edit item"}, 422
 
         return {
             "message": "Updated Item succesfully",
@@ -404,6 +407,6 @@ class ItemOperations(BaseResource):
         deleted_item = self.profile.delete_asset(
             item=True, asset_id=item_id, buc_id=bucket_id)
         if not deleted_item:
-            return {"message": "Item was not delted"}, 500
+            return {"message": "Item was not delted"}, 422
 
         return {"message": "Item deleted succesfully"}, 200
