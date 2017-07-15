@@ -20,11 +20,11 @@ This App exposes endpoints that allows ```clients/Users``` to manage a bucketlis
 |GET| `/api/v1.0/bucketlists/<bucket_id>` | Get a single bucket list. |
 |PUT| `/api/v1.0/bucketlists/<bucket_id>` | Update a single bucket list. |
 |DELETE| `/api/v1.0/bucketlists/<bucket_id>` | Delete single bucket list. |
-|POST| `/api/v1/bucketlists/<bucket_id>/items` | Add a new item to this bucket list. |
-|GET| `/api/v1/bucketlists/<bucket_id>/items` | Get an item from this bucket list. |
-|PUT|`/api/v1/bucketlists/<bucket_id>/items/<item_id>` | Update an item in this bucket list. |
-|PATCH|`/api/v1/bucketlists/<bucket_id>/items/<item_id>` | Patch an item in this bucket list. |
-|DELETE|`/api/v1/bucketlists/<bucket_id>/items/<item_id>` | Delete this single bucket list. |
+|POST| `/api/v1.0/bucketlists/<bucket_id>/items` | Add a new item to this bucket list. |
+|GET| `/api/v1.0/bucketlists/<bucket_id>/items/<item_id>` | Get an item from this bucket list. |
+|PUT|`/api/v1.0/bucketlists/<bucket_id>/items/<item_id>` | Update an item in this bucket list. |
+|PATCH|`/api/v1.0/bucketlists/<bucket_id>/items/<item_id>` | Patch an item in this bucket list. |
+|DELETE|`/api/v1.0/bucketlists/<bucket_id>/items/<item_id>` | Delete this single bucket list. |
 |GET| `/api/v1/bucketlists?per_page=10&page=1` | Pagination to get 10 bucket list records.|
 |GET| `/api/v1/bucketlists?q=a bucket` | Search for bucket lists with name like a bucket.
 
@@ -93,7 +93,7 @@ To Follow along with this examples get postman : A powerful GUI platform to make
 
 - Signup/ register
 ![post man](Assets/register.png)
-    - Post data in the format below to the register endpoint: /api/v1.0/register
+    - Post data in the format below to the register endpoint: ```/api/v1.0/register```
     ```
     {
 	"username":"geogreen ngunga",
@@ -105,17 +105,20 @@ To Follow along with this examples get postman : A powerful GUI platform to make
 
 - Login
 ![post man](Assets/login.png)
-    - Post data in the format below to the login endpoint : /api/v1.0/login
+    - Post data in the format below to the login endpoint : ```/api/v1.0/login```
 ```
 {
 "email":"demoenail@gmail.com",
 "password":"demoPassword12#"
 }
 ```
+    - Copy the token returned and add it into the headers as a key pair value of ```Authorization : Bearer [put token here]```
+    ![post man](Assets/Authorization.png)
+    </br></br>
 
 - Create BucketList
 ![post man](Assets/createbucket.png)
-    - Post data in the format below to the bucketlist endpoint: /api/v1.0/bucketlists/
+    - Post data in the format below to the bucketlist endpoint: ```/api/v1.0/bucketlists/```
 ```
 {
 "name":"new bucketlist name"
@@ -124,17 +127,17 @@ To Follow along with this examples get postman : A powerful GUI platform to make
 
 - Get BucketList
 ![post man](Assets/getbuckets.png)
-    - Get data from the  bucketlist endpoint: /api/v1.0/bucketlists/
+    - Get data from the  bucketlist endpoint: ```/api/v1.0/bucketlists/```
     </br></br>
 
 - Get one BucketList
 ![post man](Assets/getonebucket.png)
-    - Get data from the  bucketlist endpoint: /api/v1.0/bucketlists/bucket_id
+    - Get data from the  bucketlist endpoint: ```/api/v1.0/bucketlists/bucket_id```
     </br></br>
 
 - Update BucketList
 ![post man](Assets/updatebucket.png)
-    - Put data to the endpoint :/api/v1.0/bucketlists/bucket_id
+    - Put data to the endpoint :```/api/v1.0/bucketlists/bucket_id```
 
     ```
     {
@@ -145,20 +148,50 @@ To Follow along with this examples get postman : A powerful GUI platform to make
 
 - Delete BucketList
 ![post man](Assets/deletebucket.png)
-    - Delete data at an endpoint:/api/v1.0/bucketlists/bucket_id </br></br>
+    - Delete data at an endpoint:```/api/v1.0/bucketlists/bucket_id``` </br></br>
 
 - Add Item to BucketList
+![post man](Assets/additem.png)
+    - Post data to ```/api/v1.0/bucketlists/<bucket_id>/items``` in the format:
+    ```
+    {
+        "name":"Item name",
+        "description":"Item description"
+    }
+    ```
 
 - Get Item from BucketList
+![post man](Assets/getitem.png)
+    - Get data from the endpoint:```/api/v1.0/bucketlists/<bucket_id>/items/<item_id>```
+    </br></br>
 
 - Update Item from BucketList
+![post man](Assets/uodateitem.png)
+    - Put data to ```/api/v1.0/bucketlists/<bucket_id>/items/<item_id>``` in the format:
+    ```
+    {
+        "name":"This will update name",
+        "description":"This will update description"
+    }
+    ```
 
 - Patch Item from BucketList
+![post man](Assets/patchitem.png)
+    - Patch item endpoint ```/api/v1.0/bucketlists/<bucket_id>/items/<item_id> ``` data format:
+    ```
+    {
+        "done":"True"
+    }
+    ```
 
 - Delete Item from BucketLists
+![post man](Assets/deleteitem.png)
+    - Delete item at the endpoint ``` /api/v1.0/bucketlists/<bucket_id>/items/<item_id>```
+
 
 - Search for BucketLists
 
+- Paginate BucketLists
 
 ## Running the tests
 
