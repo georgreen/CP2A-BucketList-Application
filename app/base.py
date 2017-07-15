@@ -6,13 +6,14 @@ The base Model class(BaseModel)is defined in this module, it defines common
 properties for models used in application.
 """
 
-from app import errors
-from config import config
-from flask import Blueprint, Flask
+from flask import Blueprint, Flask, abort, json, request
 from flask_jwt_extended import JWTManager
 from flask_marshmallow import Marshmallow
 from flask_restplus import Api
 from flask_sqlalchemy import SQLAlchemy
+
+from app import errors
+from config import config
 
 # database instance of sqlachemy provides all database operations.
 database = SQLAlchemy()
@@ -61,6 +62,31 @@ def new_app(enviroment="default"):
 
     from app.endpoint import endpoints
     api.add_namespace(endpoints.app)
+
+    @flask.after_request
+    def check_response(response):
+        """Utility to handle response before dispatch."""
+        if response.status_code == 301:
+            path = request.path
+            if path[-1] != '/':
+                path = path + '/'
+            response.data = json.dumps({
+                "message":
+                "This URL:" + request.path + " is not correct",
+                "Url":
+                path
+            })
+            response.content_type = 'application/json'
+            response.status_code = 301
+        elif (response.content_type != 'application/json' and
+              response.status_code != 200):
+            response.data = json.dumps({
+                "message":
+                "Oops something went wrong :-("
+            })
+            response.content_type = 'application/json'
+            response.status_code = 500
+        return response
 
     return flask
 

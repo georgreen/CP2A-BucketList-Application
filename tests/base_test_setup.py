@@ -65,8 +65,8 @@ class BaseTestCase(TestCase):
         self.new_profile.save()
 
         self.client = self.app.test_client()
-        self.login_url = "/api/v1.0/login/"
-        self.register_url = "/api/v1.0/register/"
+        self.login_url = "/api/v1.0/login"
+        self.register_url = "/api/v1.0/register"
 
     def tearDown(self):
         database.session.remove()

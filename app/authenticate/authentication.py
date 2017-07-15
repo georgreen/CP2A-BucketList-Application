@@ -2,8 +2,6 @@
 import re
 
 import webargs
-from app.base import autheticate_manager
-from app.models import profile, user
 from flask import jsonify, request
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended.exceptions import (InvalidHeaderError,
@@ -12,6 +10,9 @@ from flask_restplus import Namespace, Resource, fields
 from jwt.exceptions import DecodeError, ExpiredSignatureError
 from webargs.flaskparser import parser
 from werkzeug.exceptions import InternalServerError
+
+from app.base import autheticate_manager
+from app.models import profile, user
 
 app = Namespace(
     "Auth", description='Operations related to Authentication', path='/v1.0')
@@ -60,11 +61,12 @@ def handle_decoderror(e):
 @app.errorhandler(Exception)
 def handle_unexpected(e):
     """Handle unexpected errors in this namespace."""
+
     error = {"message": "Server error something went worng :-("}
     return jsonify(error)
 
 
-@app.route("/register/", endpoint='register')
+@app.route("/register", endpoint='register')
 class Register(Resource):
     """Resource for registration."""
 
@@ -125,7 +127,7 @@ class Register(Resource):
                 raise InternalServerError
 
 
-@app.route("/login/", endpoint='login')
+@app.route("/login", endpoint='login')
 class Login(Resource):
     """Resource for Login/Authentication."""
 

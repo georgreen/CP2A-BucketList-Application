@@ -115,7 +115,7 @@ class BucketList(BaseResource):
         link = []
         if paginate.has_next:
             url_for_next = url_for(
-                'api_blueprint.bucketlist',
+                'api.bucketlist',
                 q=query,
                 limit=limit,
                 page=paginate.next_num,
@@ -124,7 +124,7 @@ class BucketList(BaseResource):
 
         if paginate.has_prev:
             url_for_prev = url_for(
-                'api_blueprint.bucketlist',
+                'api.bucketlist',
                 q=query,
                 limit=limit,
                 page=paginate.prev_num,
