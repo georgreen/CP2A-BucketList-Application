@@ -112,9 +112,10 @@ To Follow along with this examples get postman : A powerful GUI platform to make
 "password":"demoPassword12#"
 }
 ```
-    - Copy the token returned and add it into the headers as a key pair value of ```Authorization : Bearer [put token here]```
+- Copy the token returned and add it into the headers as a key pair value of ```Authorization : Bearer [put token here]```
 
     ![post man](Assets/Authorization.png)
+    
     </br></br>
 
 - Create BucketList
