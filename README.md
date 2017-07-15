@@ -55,7 +55,7 @@ https://www.python.org/
 
 
 ### Installing
-For this section i will assume you have python3 and it's configured on your machine. </br>
+For this section I will assume you have python3 and it's configured on your machine. </br>
 Navigate to the folder you cloned and run: </br>
 
 - Install Requirements
@@ -113,6 +113,7 @@ To Follow along with this examples get postman : A powerful GUI platform to make
 }
 ```
     - Copy the token returned and add it into the headers as a key pair value of ```Authorization : Bearer [put token here]```
+
     ![post man](Assets/Authorization.png)
     </br></br>
 
