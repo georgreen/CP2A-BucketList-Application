@@ -25,8 +25,8 @@ This App exposes endpoints that allows ```clients/Users``` to manage a bucketlis
 |PUT|`/api/v1.0/bucketlists/<bucket_id>/items/<item_id>` | Update an item in this bucket list. |
 |PATCH|`/api/v1.0/bucketlists/<bucket_id>/items/<item_id>` | Patch an item in this bucket list. |
 |DELETE|`/api/v1.0/bucketlists/<bucket_id>/items/<item_id>` | Delete this single bucket list. |
-|GET| `/api/v1/bucketlists?per_page=10&page=1` | Pagination to get 10 bucket list records.|
-|GET| `/api/v1/bucketlists?q=a bucket` | Search for bucket lists with name like a bucket.
+|GET| `/api/v1.0/bucketlists?limit=10&page=1` | Pagination to get 10 bucket list records.|
+|GET| `/api/v1.0/bucketlists?q=travelling bucket` | Search for bucket lists with name like travelling bucket.
 
 
 ## Getting Started
@@ -115,7 +115,7 @@ To Follow along with this examples get postman : A powerful GUI platform to make
 - Copy the token returned and add it into the headers as a key pair value of ```Authorization : Bearer [put token here]```
 
     ![post man](Assets/Authorization.png)
-    
+
     </br></br>
 
 - Create BucketList
@@ -192,8 +192,14 @@ To Follow along with this examples get postman : A powerful GUI platform to make
 
 
 - Search for BucketLists
+![post man](Assets/searching.png)
+    - Get bucketlist by searching ```/api/v1.0/bucketlists/<bucket_id>/?q=search```</br>
+    Search can be any sub string to be queried from the resource
 
 - Paginate BucketLists
+![post man](Assets/paginate.png)
+    - Get paginated buckets ```/api/v1.0/bucketlists/<bucket_id>/?limit=2&page=1```</br>
+    This will get two bucketlists per page, limit can be set to any number of bucketlist required per page; page is the required page 1st, 2nd , 3rd ....etc
 
 ## Running the tests
 
