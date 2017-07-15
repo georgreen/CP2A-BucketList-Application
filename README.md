@@ -1,15 +1,15 @@
 [![Build Status](https://travis-ci.org/georgreen/CP2A-BucketList-Application.svg?branch=develop)](https://travis-ci.org/georgreen/CP2A-BucketList-Application) [![Coverage Status](https://coveralls.io/repos/github/georgreen/CP2A-BucketList-Application/badge.svg?branch=develop)](https://coveralls.io/github/georgreen/CP2A-BucketList-Application?branch=develop) [![Code Issues](https://www.quantifiedcode.com/api/v1/project/675d48c654bc43aa9936634b72415f36/badge.svg)](https://www.quantifiedcode.com/app/project/675d48c654bc43aa9936634b72415f36) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1fc976228f5c41b3a9c756242a63f754)](https://www.codacy.com/app/georgreen/CP2A-BucketList-Application?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=georgreen/CP2A-BucketList-Application&amp;utm_campaign=Badge_Grade) [![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)](https://github.com/georgreen/CP2A-BucketList-Application/blob/master/LICENSE) [![state badge](https://img.shields.io/badge/state-Alpha-red.svg)]() [![pep 8](https://img.shields.io/badge/code%20style-Pep%208-green.svg)](https://www.python.org/dev/peps/pep-0008/)
 
 
-# BucketList API
+# BucketList API  ✍
  Create an API for an online Bucket List service using Flask.
 
-```Bucket list``` can also be refered to as ```things/something to do before you die```. It is possibly derived from the English idiom to kick the bucket. It is used as an informal way or as a slang and it is believed that the idiom comes from method of execution such as hanging. The origin of the word remains unclear. [Read more here.](https://www.quora.com/Why-is-a-bucket-list-called-a-bucket-list)
+```Bucket list``` can also be refered to as ```things/something to do before you die```. It is possibly derived from the English idiom to kick the bucket. It is used as an informal way or as a slang and it is believed that the idiom comes from method of execution such as hanging. The origin of the word remains unclear. [Read more here.](https://www.quora.com/Why-is-a-bucket-list-called-a-bucket-list) 🤔
 
 - ## API
 This App exposes endpoints that allows ```clients/Users``` to manage a bucketlist of their choise.
 
-    - #### Available Resource Endpoints
+- #### Available Resource Endpoints
 
 |Method | Endpoint | Usage |
 | ---- | ---- | --------------- |
@@ -29,7 +29,7 @@ This App exposes endpoints that allows ```clients/Users``` to manage a bucketlis
 |GET| `/api/v1.0/bucketlists?q=travelling bucket` | Search for bucket lists with name like travelling bucket.
 
 
-## Getting Started
+## Getting Started 🕵
 - To run on local machine git clone this project :
 ```
  $ git clone https://github.com/georgreen/CP2A-BucketList-Application.git
@@ -42,7 +42,7 @@ This App exposes endpoints that allows ```clients/Users``` to manage a bucketlis
  https://cp2-bucketlist-prd.herokuapp.com/api/
  ```
  ![post man](Assets/heroku.png)
- 
+
  This link will open up a running version of the project on heroku, a detailed documentation is provided on the site.
 
 ### Prerequisites
@@ -82,7 +82,7 @@ $ python manage.py database migrate
 $ python manage.py database upgrade
 ```
 
-- Run App
+- Run App 🏃🏃‍
 ```
 $ python manage.py runserver
 ```
@@ -92,6 +92,7 @@ The app should be accessiable via : http://127.0.0.1:5000/
 To Follow along with this examples get postman : A powerful GUI platform to make your API requests. [READ MORE HERE](https://www.getpostman.com/)
 - Set up postman
  ![post man](Assets/postmanhome.png)
+
 
 - Signup/ register
 ![post man](Assets/register.png)
@@ -118,7 +119,6 @@ To Follow along with this examples get postman : A powerful GUI platform to make
 
     ![post man](Assets/Authorization.png)
 
-    </br></br>
 
 - Create BucketList
 ![post man](Assets/createbucket.png)
@@ -129,15 +129,16 @@ To Follow along with this examples get postman : A powerful GUI platform to make
 }
 ```
 
+
 - Get BucketList
 ![post man](Assets/getbuckets.png)
     - Get data from the  bucketlist endpoint: ```/api/v1.0/bucketlists/```
-    </br></br>
+
 
 - Get one BucketList
 ![post man](Assets/getonebucket.png)
     - Get data from the  bucketlist endpoint: ```/api/v1.0/bucketlists/bucket_id```
-    </br></br>
+
 
 - Update BucketList
 ![post man](Assets/updatebucket.png)
@@ -152,7 +153,8 @@ To Follow along with this examples get postman : A powerful GUI platform to make
 
 - Delete BucketList
 ![post man](Assets/deletebucket.png)
-    - Delete data at an endpoint:```/api/v1.0/bucketlists/bucket_id``` </br></br>
+    - Delete data at an endpoint:```/api/v1.0/bucketlists/bucket_id```
+
 
 - Add Item to BucketList
 ![post man](Assets/additem.png)
@@ -164,10 +166,11 @@ To Follow along with this examples get postman : A powerful GUI platform to make
     }
     ```
 
+
 - Get Item from BucketList
 ![post man](Assets/getitem.png)
     - Get data from the endpoint:```/api/v1.0/bucketlists/<bucket_id>/items/<item_id>```
-    </br></br>
+
 
 - Update Item from BucketList
 ![post man](Assets/uodateitem.png)
@@ -179,6 +182,7 @@ To Follow along with this examples get postman : A powerful GUI platform to make
     }
     ```
 
+
 - Patch Item from BucketList
 ![post man](Assets/patchitem.png)
     - Patch item endpoint ```/api/v1.0/bucketlists/<bucket_id>/items/<item_id> ``` data format:
@@ -187,6 +191,7 @@ To Follow along with this examples get postman : A powerful GUI platform to make
         "done":"True"
     }
     ```
+
 
 - Delete Item from BucketLists
 ![post man](Assets/deleteitem.png)
@@ -198,10 +203,12 @@ To Follow along with this examples get postman : A powerful GUI platform to make
     - Get bucketlist by searching ```/api/v1.0/bucketlists/<bucket_id>/?q=search```</br>
     Search can be any sub string to be queried from the resource
 
+
 - Paginate BucketLists
 ![post man](Assets/paginate.png)
     - Get paginated buckets ```/api/v1.0/bucketlists/<bucket_id>/?limit=2&page=1```</br>
     This will get two bucketlists per page, limit can be set to any number of bucketlist required per page; page is the required page 1st, 2nd , 3rd ....etc
+
 
 ## Running the tests
 
@@ -222,35 +229,36 @@ $ python manage.py test
 $ pep8 app --count
 ```
 
-## Deployment
+## Deployment 🚀
 
 - [Check this out to deploy to heroku](https://devcenter.heroku.com/articles/getting-started-with-python#introduction)
 
-## Built With
+## Built With  🏗 🔨⚒
 
 * [Flask](http://flask.pocoo.org/) - The web framework used
 * [Flaskrestplus](https://flask-restplus.readthedocs.io/en/stable/) - Extension for Flask that adds support for quickly building REST APIs.
 * [webargs](https://webargs.readthedocs.io/en/latest/) - webargs is a Python library for parsing HTTP request arguments
 * [Flask JWT Extended](https://flask-jwt-extended.readthedocs.io/en/latest/) - Extension for Flask that adds support for tokken authentication
 
-## Contributing
+## Contributing 👍
 
 - Please Fork me! :-)
 
-## Versioning
+## Versioning ⚙
 
 - [Checkout our releases](https://github.com/georgreen/CP2A-BucketList-Application/releases)
 
-## Authors
+## Authors 📚
 
 * **Georgreen Mamboleo** - *Initial work* - [Dojo](https://github.com/georgreen/Geoogreen-Mamboleo-Dojo-Project)
 
 
-## License
+## License 🤝
 
 - This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
-## Acknowledgments
+## Acknowledgments 👊 🙌 👏 🙏
 
-* [ANDELA ](https://andela.com/) - We are hiring !
-* [TARACHA](https://github.com/TheDancerCodes) - Cool Human being.
+* [Andela ](https://andela.com/) - We are hiring !
+* [Taracha Roger](https://github.com/TheDancerCodes) - Cool Human being.🤓🤓
+* [Motivation](https://www.youtube.com/watch?v=dQw4w9WgXcQ) - BEST RESOURCE EVER!!!
