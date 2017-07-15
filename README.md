@@ -66,7 +66,6 @@ $ pip install -r requirements.txt
 ```
 
 - Configure Environment.
-
 ```
 $ export APP_SETTINGS="default"
 $ export DEV_DATABASE="path to your database"
@@ -99,9 +98,9 @@ To Follow along with this examples get postman : A powerful GUI platform to make
     - Post data in the format below to the register endpoint: ```/api/v1.0/register```
     ```
     {
-	"username":"geogreen ngunga",
-	"email":"demoenail@gmail.com",
-	"password":"demoPassword12#"
+	    "username":"geogreen ngunga",
+	    "email":"demoenail@gmail.com",
+	    "password":"demoPassword12#"
     }
     ```
 
@@ -109,12 +108,12 @@ To Follow along with this examples get postman : A powerful GUI platform to make
 - Login
 ![post man](Assets/login.png)
     - Post data in the format below to the login endpoint : ```/api/v1.0/login```
-```
-{
-"email":"demoenail@gmail.com",
-"password":"demoPassword12#"
-}
-```
+    ```
+    {
+        "email":"demoenail@gmail.com",
+        "password":"demoPassword12#"
+    }
+    ```
 - Copy the token returned and add it into the headers as a key pair value of ```Authorization : Bearer [put token here]```
 
     ![post man](Assets/Authorization.png)
@@ -123,11 +122,11 @@ To Follow along with this examples get postman : A powerful GUI platform to make
 - Create BucketList
 ![post man](Assets/createbucket.png)
     - Post data in the format below to the bucketlist endpoint: ```/api/v1.0/bucketlists/```
-```
-{
-"name":"new bucketlist name"
-}
-```
+    ```
+    {
+        "name":"new bucketlist name"
+    }
+    ```
 
 
 - Get BucketList
@@ -143,7 +142,6 @@ To Follow along with this examples get postman : A powerful GUI platform to make
 - Update BucketList
 ![post man](Assets/updatebucket.png)
     - Put data to the endpoint :```/api/v1.0/bucketlists/bucket_id```
-
     ```
     {
         "name":"new name"
