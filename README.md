@@ -9,7 +9,7 @@
 - ## API
 This App exposes endpoints that allows ```clients/Users``` to manage a bucketlist of their choise.
 
-- ## Available Resource Endpoints
+    - #### Available Resource Endpoints
 
 |Method | Endpoint | Usage |
 | ---- | ---- | --------------- |
@@ -39,8 +39,10 @@ This App exposes endpoints that allows ```clients/Users``` to manage a bucketlis
 
 - To consume API in client of choice navigate to:
  ```
- https://cp2-bucketlist-stage.herokuapp.com/api/̨
+ https://cp2-bucketlist-prd.herokuapp.com/api/
  ```
+ ![post man](Assets/heroku.png)
+ 
  This link will open up a running version of the project on heroku, a detailed documentation is provided on the site.
 
 ### Prerequisites
